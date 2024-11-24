@@ -11,4 +11,4 @@ spec:
   storageClassName: local-path
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /mnt/host/d/git/dio-projeto-aplicacao/k8s-projeto1-app-base/data
+    path: /database/data
