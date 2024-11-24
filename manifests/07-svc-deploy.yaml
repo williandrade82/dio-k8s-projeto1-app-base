@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-backend
+  namespace: ns-deploy
+spec:
+  selector:
+    app: httpd-deploy
+  ports:
+  - port: 80
+    targetPort: 80
+  type: LoadBalancer

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: projeto-deploy-database
+  namespace: ns-deploy
+spec:
+  selector:
+    matchLabels:
+      app: projeto-db
+  serviceName: svc-database
+  template:
+    metadata:
+      labels:
+        app: projeto-db
+    spec:
+      containers:
+      - name: projeto-db
+        image: williandrade82/projeto-deploy-db:latest
+        ports:
+        - containerPort: 3306
+          name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: Senha123
+        - name: MYSQL_DEFAULT_PASSWORD
+          value: Senha123
+        - name:  MYSQL_DATABASE
+          value: meubanco
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: pvc-database
+
+  # - metadata:
+  #     name: mysql-persistent-storage
+  #   spec:
+  #     accessModes: [ "ReadWriteOnce" ]
+  #     resources:
+  #       requests:
+  #         storage: 10Gi
+  #     selector:
+  #       matchLabels:
+  #         app: 
